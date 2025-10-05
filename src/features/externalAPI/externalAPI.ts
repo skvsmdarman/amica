@@ -6,35 +6,23 @@ import {
 } from "../amicaLife/eventHandler";
 import { Message } from "../chat/messages";
 
-export const configUrl = new URL(
-  `${process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL}/api/dataHandler`,
-);
-configUrl.searchParams.append("type", "config");
-
-export const userInputUrl = new URL(
-  `${process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL}/api/dataHandler`,
-);
-userInputUrl.searchParams.append("type", "userInputMessages");
-
-export const subconsciousUrl = new URL(
-  `${process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL}/api/dataHandler`,
-);
-subconsciousUrl.searchParams.append("type", "subconscious");
-
-export const logsUrl = new URL(
-  `${process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL}/api/dataHandler`,
-);
-logsUrl.searchParams.append("type", "logs");
-
-export const chatLogsUrl = new URL(
-  `${process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL}/api/dataHandler`,
-);
-chatLogsUrl.searchParams.append("type", "chatLogs");
+const getUrl = (type: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL || '';
+  if (!baseUrl) {
+    // Return a dummy URL or handle the error appropriately if the base URL is missing
+    return new URL('http://localhost:3000/api/dummy');
+  }
+  const url = new URL(`${baseUrl}/api/dataHandler`);
+  url.searchParams.append("type", type);
+  return url;
+};
 
 // Cached server config
 export let serverConfig: Record<string, string> = {};
 
 export async function fetcher(method: string, url: URL, data?: any) {
+  if (url.pathname.includes('dummy')) return; // Do nothing if using the dummy URL
+
   let response: any;
   switch (method) {
     case "POST":
@@ -72,39 +60,28 @@ export async function handleConfig(
   if (!isDev) {
     return;
   }
+  const configUrl = getUrl("config");
 
   switch (type) {
-    // Call this function at the beginning of your application to load the server config and sync to localStorage if needed.
     case "init":
       let localStorageData: Record<string, string> = {};
-
       for (const key in defaults) {
         const localKey = prefixed(key);
         const value = localStorage.getItem(localKey);
-
         if (value !== null) {
           localStorageData[key] = value;
         } else {
-          // Append missing keys with default values
           localStorageData[key] = (<any>defaults)[key];
         }
       }
-
-      // Sync update to server config
       await fetcher("POST", configUrl, localStorageData);
-
       break;
     case "fetch":
-      // Sync update to server config cache
       await fetcher("GET", configUrl);
-
       break;
-
     case "update":
       await fetcher("POST", configUrl, data);
-
       break;
-
     default:
       break;
   }
@@ -114,6 +91,8 @@ export async function handleUserInput(message: string) {
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
+  const userInputUrl = getUrl("userInputMessages");
+  if (userInputUrl.pathname.includes('dummy')) return;
 
   fetch(userInputUrl, {
     method: "POST",
@@ -129,6 +108,8 @@ export async function handleChatLogs(messages: Message[]) {
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
+  const chatLogsUrl = getUrl("chatLogs");
+  if (chatLogsUrl.pathname.includes('dummy')) return;
 
   fetch(chatLogsUrl, {
     method: "POST",
@@ -143,6 +124,9 @@ export async function handleSubconscious(
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
+  const subconsciousUrl = getUrl("subconscious");
+  if (subconsciousUrl.pathname.includes('dummy')) return;
+
 
   const data = await fetch(subconsciousUrl);
   if (!data.ok) {
