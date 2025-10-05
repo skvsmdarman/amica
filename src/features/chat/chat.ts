@@ -41,7 +41,7 @@ import { wait } from "@/utils/wait";
 import isDev from '@/utils/isDev';
 
 import { isCharacterIdle, characterIdleTime, resetIdleTimer } from "@/utils/isIdle";
-import { getOpenRouterChatResponseStream } from './openRouterChat';
+import { getPollinationsChatResponseStream } from './pollinationsChat';
 import { handleUserInput } from '../externalAPI/externalAPI';
 import { loadVRMAnimation } from '@/lib/VRMAnimation/loadVRMAnimation';
 
@@ -731,8 +731,8 @@ export class Chat {
         return getOllamaChatResponseStream(messages);
       case "koboldai":
         return getKoboldAiChatResponseStream(messages);
-      case 'openrouter':
-        return getOpenRouterChatResponseStream(messages);
+      case 'pollinations':
+        return getPollinationsChatResponseStream(messages);
     }
 
     return getEchoChatResponseStream(messages);

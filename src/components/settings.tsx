@@ -70,7 +70,7 @@ import { NamePage } from './settings/NamePage';
 import { SystemPromptPage } from './settings/SystemPromptPage';
 import { AmicaLifePage } from "./settings/AmicaLifePage";
 import { useVrmStoreContext } from "@/features/vrmStore/vrmStoreContext";
-import { OpenRouterSettings } from "./settings/OpenRouterSettingsPage";
+import { PollinationsSettings } from "./settings/PollinationsSettingsPage";
 import { ExternalAPIPage } from "./settings/ExternalAPIPage";
 import { KokoroSettingsPage } from "./settings/KokoroSettingsPage";
 
@@ -102,9 +102,9 @@ export const Settings = ({
   const [koboldAiUseExtra, setKoboldAiUseExtra] = useState<boolean>(config("koboldai_use_extra") === 'true' ? true : false);
   const [koboldAiStopSequence, setKoboldAiStopSequence] = useState(config("koboldai_stop_sequence"));
   const [moshiUrl, setMoshiUrl] = useState(config("moshi_url"));
-  const [openRouterApiKey, setOpenRouterApiKey] = useState(config("openrouter_apikey"));
-  const [openRouterUrl, setOpenRouterUrl] = useState(config("openrouter_url"));
-  const [openRouterModel, setOpenRouterModel] = useState(config("openrouter_model"));
+  const [pollinationsApiKey, setPollinationsApiKey] = useState(config("pollinations_apikey"));
+  const [pollinationsUrl, setPollinationsUrl] = useState(config("pollinations_url"));
+  const [pollinationsModel, setPollinationsModel] = useState(config("pollinations_model"));
 
   const [ttsBackend, setTTSBackend] = useState(config("tts_backend"));
   const [elevenlabsApiKey, setElevenlabsApiKey] = useState(config("elevenlabs_apikey"));
@@ -279,7 +279,7 @@ export const Settings = ({
     ollamaUrl, ollamaModel,
     koboldAiUrl, koboldAiUseExtra, koboldAiStopSequence,
     moshiUrl,
-    openRouterApiKey, openRouterUrl, openRouterModel,
+    pollinationsApiKey, pollinationsUrl, pollinationsModel,
     ttsBackend,
     elevenlabsApiKey, elevenlabsVoiceId,
     speechT5SpeakerEmbeddingsUrl,
@@ -363,7 +363,7 @@ export const Settings = ({
 
     case 'chatbot':
       return <MenuPage
-        keys={["chatbot_backend", "name", "system_prompt", "arbius_llm_settings", "chatgpt_settings", "llamacpp_settings", "ollama_settings", "koboldai_settings", "moshi_settings", "openrouter_settings"]}
+        keys={["chatbot_backend", "name", "system_prompt", "arbius_llm_settings", "chatgpt_settings", "llamacpp_settings", "ollama_settings", "koboldai_settings", "moshi_settings", "pollinations_settings"]}
         menuClick={handleMenuClick} />;
 
     case 'language':
@@ -515,14 +515,14 @@ export const Settings = ({
         setSettingsUpdated={setSettingsUpdated}
         />
 
-    case 'openrouter_settings':
-      return <OpenRouterSettings
-        openRouterUrl={openRouterUrl}
-        setOpenRouterUrl={setOpenRouterUrl}
-        openRouterApiKey={openRouterApiKey}
-        setOpenRouterApiKey={setOpenRouterApiKey}
-        openRouterModel={openRouterModel}
-        setOpenRouterModel={setOpenRouterModel}
+    case 'pollinations_settings':
+      return <PollinationsSettings
+        pollinationsUrl={pollinationsUrl}
+        setPollinationsUrl={setPollinationsUrl}
+        pollinationsApiKey={pollinationsApiKey}
+        setPollinationsApiKey={setPollinationsApiKey}
+        pollinationsModel={pollinationsModel}
+        setPollinationsModel={setPollinationsModel}
         setSettingsUpdated={setSettingsUpdated}
         />
 

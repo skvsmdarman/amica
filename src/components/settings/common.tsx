@@ -163,7 +163,7 @@ export function getIconFromPage(page: string): JSX.Element {
     case 'ollama_settings':     return <AdjustmentsHorizontalIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
     case 'koboldai_settings':   return <AdjustmentsHorizontalIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
     case 'moshi_settings':      return <AdjustmentsHorizontalIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
-    case 'openrouter_settings': return <AdjustmentsHorizontalIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
+    case 'pollinations_settings': return <AdjustmentsHorizontalIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
     case 'name':                return <IdentificationIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
     case 'system_prompt':       return <DocumentTextIcon className="h-5 w-5 flex-none text-gray-800" aria-hidden="true" />;
 
@@ -220,7 +220,7 @@ function getLabelFromPage(page: string): string {
     case 'ollama_settings':     return t('Ollama');
     case 'koboldai_settings':   return t('KoboldAI');
     case 'moshi_settings':      return t('Moshi');
-    case 'openrouter_settings': return t('OpenRouter');
+    case 'pollinations_settings': return t('Pollinations');
     case 'name'         :       return t('Name');
     case 'system_prompt':       return t('System Prompt');
 

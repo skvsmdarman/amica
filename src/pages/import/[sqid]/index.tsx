@@ -36,6 +36,10 @@ export default function Import() {
 
   useEffect(() => {
     async function getCharacter() {
+      if (!supabase) {
+        setError(true);
+        return;
+      }
       const { data, error } = await supabase
         .from('characters')
         .select(`description, name, system_prompt, vision_system_prompt, bg_url, youtube_videoid, vrm_url, animation_url, voice_url`)
