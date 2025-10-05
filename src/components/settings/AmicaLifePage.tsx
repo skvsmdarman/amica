@@ -85,7 +85,7 @@ export function AmicaLifePage({
                 updateConfig("idle_text_prompt", fileName);
                 setSettingsUpdated(true);
             }
-        }, [bot, idleTextPrompt]
+        }, [amicaLife, setIdleTextPrompt, setSettingsUpdated]
     );
 
     return (

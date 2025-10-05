@@ -28,7 +28,7 @@ export function Alert() {
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [alert]);
 
   return (
     <div className="fixed w-full z-[1000] flex items-end justify-center pointer-events-none sm:items-start sm:justify-end">

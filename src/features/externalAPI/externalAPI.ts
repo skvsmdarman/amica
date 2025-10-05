@@ -6,22 +6,23 @@ import {
 } from "../amicaLife/eventHandler";
 import { Message } from "../chat/messages";
 
-const getUrl = (type: string) => {
-  const baseUrl = process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL || '';
-  if (!baseUrl) {
-    // Return a dummy URL or handle the error appropriately if the base URL is missing
-    return new URL('http://localhost:3000/api/dummy');
+function createApiUrl(type: string): URL {
+  const baseUrl = process.env.NEXT_PUBLIC_DEVELOPMENT_BASE_URL;
+  // During build, baseUrl can be undefined. We provide a dummy URL to prevent crashes.
+  const url = new URL(baseUrl ? `${baseUrl}/api/dataHandler` : 'http://localhost:3000/api/dummy');
+  if (baseUrl) {
+    url.searchParams.append("type", type);
   }
-  const url = new URL(`${baseUrl}/api/dataHandler`);
-  url.searchParams.append("type", type);
   return url;
-};
+}
 
 // Cached server config
 export let serverConfig: Record<string, string> = {};
 
 export async function fetcher(method: string, url: URL, data?: any) {
-  if (url.pathname.includes('dummy')) return; // Do nothing if using the dummy URL
+  if (url.pathname.includes('dummy')) {
+    return; // Don't fetch if using the dummy URL
+  }
 
   let response: any;
   switch (method) {
@@ -60,14 +61,16 @@ export async function handleConfig(
   if (!isDev) {
     return;
   }
-  const configUrl = getUrl("config");
+  const configUrl = createApiUrl("config");
 
   switch (type) {
     case "init":
       let localStorageData: Record<string, string> = {};
+
       for (const key in defaults) {
         const localKey = prefixed(key);
         const value = localStorage.getItem(localKey);
+
         if (value !== null) {
           localStorageData[key] = value;
         } else {
@@ -91,8 +94,7 @@ export async function handleUserInput(message: string) {
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
-  const userInputUrl = getUrl("userInputMessages");
-  if (userInputUrl.pathname.includes('dummy')) return;
+  const userInputUrl = createApiUrl("userInputMessages");
 
   fetch(userInputUrl, {
     method: "POST",
@@ -108,8 +110,7 @@ export async function handleChatLogs(messages: Message[]) {
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
-  const chatLogsUrl = getUrl("chatLogs");
-  if (chatLogsUrl.pathname.includes('dummy')) return;
+  const chatLogsUrl = createApiUrl("chatLogs");
 
   fetch(chatLogsUrl, {
     method: "POST",
@@ -124,9 +125,7 @@ export async function handleSubconscious(
   if (!isDev || config("external_api_enabled") !== "true") {
     return;
   }
-  const subconsciousUrl = getUrl("subconscious");
-  if (subconsciousUrl.pathname.includes('dummy')) return;
-
+  const subconsciousUrl = createApiUrl("subconscious");
 
   const data = await fetch(subconsciousUrl);
   if (!data.ok) {

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { config, updateConfig } from "@/utils/config";
@@ -48,7 +48,7 @@ export function LocalXTTSSettingsPage({
         'Hindi': 'hi'
     };
 
-    const checkServerStatus = async () => {
+    const checkServerStatus = useCallback(async () => {
         try {
             setLoading(true);
             // Remove any trailing slashes from the URL
@@ -66,9 +66,9 @@ export function LocalXTTSSettingsPage({
         } finally {
             setLoading(false);
         }
-    };
+    }, [localXTTSUrl]);
 
-    const fetchVoices = async () => {
+    const fetchVoices = useCallback(async () => {
         try {
             setLoading(true);
             // Remove any trailing slashes from the URL
@@ -89,9 +89,9 @@ export function LocalXTTSSettingsPage({
         } finally {
             setLoading(false);
         }
-    };
+    }, [localXTTSUrl, selectedVoice]);
 
-	const fetchRvcVoices = async () => {
+	const fetchRvcVoices = useCallback(async () => {
 		try {
 			const baseUrl = localXTTSUrl.replace(/\/+$/, '');
 			const response = await fetch(`${baseUrl}/api/rvcvoices`);
@@ -104,7 +104,7 @@ export function LocalXTTSSettingsPage({
 		} catch (err) {
 			console.error('Error fetching RVC voices:', err);
 		}
-	};
+	}, [localXTTSUrl]);
 
 	useEffect(() => {
         const loadData = async () => {
@@ -147,7 +147,7 @@ export function LocalXTTSSettingsPage({
         };
 
         loadData();
-    }, [localXTTSUrl]);
+    }, [localXTTSUrl, checkServerStatus, fetchVoices, fetchRvcVoices, voices, rvcVoices]);
 
     const handleRefresh = () => {
         checkServerStatus();

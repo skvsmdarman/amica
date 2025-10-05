@@ -63,6 +63,7 @@ export function CharacterModelPage({
                 ( vrm.saveType === 'web' && vrm.url === vrmUrl) || ( vrm.saveType === 'local' && vrm.getHash() === vrmHash) ? "opacity-100 shadow-md" : "opacity-60 hover:opacity-100"
               )}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={vrm.thumbUrl}
                   alt={vrm.url}

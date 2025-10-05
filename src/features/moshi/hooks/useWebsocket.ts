@@ -20,7 +20,7 @@ export const useWebSocket = (
         return () => {
             stopAllAction();
         };
-    }, []);
+    }, [url, onOpen, onMessage, onClose, stopAllAction]);
 
     return socketRef;
 };

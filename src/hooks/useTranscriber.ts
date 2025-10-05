@@ -150,6 +150,7 @@ export function useTranscriber(): Transcriber {
     isModelLoading,
     postRequest,
     transcript,
+    onInputChange,
   ]);
 
   return transcriber;

@@ -38,6 +38,7 @@ export function BackgroundImgPage({
               bgUrl === url ? "opacity-100 shadow-md" : "opacity-60 hover:opacity-100",
             )}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`${thumbPrefix(url)}`}
                 alt={url}

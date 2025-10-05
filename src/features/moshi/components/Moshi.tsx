@@ -124,7 +124,7 @@ export function Moshi({ setAssistantText }: {setAssistantText: (message: string)
         if (pendingSentence) {
             setAssistantText(pendingSentence);
         }
-    }, [pendingSentence]);
+    }, [pendingSentence, setAssistantText]);
 
     return <></>;
 };

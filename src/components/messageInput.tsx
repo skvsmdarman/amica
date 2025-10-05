@@ -1,7 +1,7 @@
 import * as ort from "onnxruntime-web"
 ort.env.wasm.wasmPaths = '/_next/static/chunks/'
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useMicVAD } from "@ricky0123/vad-react"
 import { IconButton } from "./iconButton";
 import { useTranscriber } from "@/hooks/useTranscriber";
@@ -120,7 +120,7 @@ export default function MessageInput({
     console.error('vad error', vad.errored);
   }
 
-  function handleTranscriptionResult(preprocessed: string) {
+  const handleTranscriptionResult = useCallback((preprocessed: string) => {
     const cleanText = cleanTranscript(preprocessed);
     const wakeWordEnabled = config("wake_word_enabled") === 'true';
     const textStartsWithWakeWord = wakeWordEnabled && cleanFromPunctuation(cleanText).startsWith(cleanFromPunctuation(config("wake_word")));
@@ -162,7 +162,7 @@ export default function MessageInput({
       setUserMessage(text);
     }
     console.timeEnd('performance_transcribe');
-  }
+  }, [amicaLife, bot, setUserMessage]);
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     onChangeUserMessage(event); 
@@ -180,7 +180,7 @@ export default function MessageInput({
       const output = transcriber.output?.text;
       handleTranscriptionResult(output);
     }
-  }, [transcriber]);
+  }, [transcriber, handleTranscriptionResult]);
 
   // for whisper_openai
   useEffect(() => {
@@ -188,7 +188,7 @@ export default function MessageInput({
       const output = whisperOpenAIOutput?.text;
       handleTranscriptionResult(output);
     }
-  }, [whisperOpenAIOutput]);
+  }, [whisperOpenAIOutput, handleTranscriptionResult]);
 
   // for whispercpp
   useEffect(() => {
@@ -196,7 +196,7 @@ export default function MessageInput({
       const output = whisperCppOutput?.text;
       handleTranscriptionResult(output);
     }
-  }, [whisperCppOutput]);
+  }, [whisperCppOutput, handleTranscriptionResult]);
 
   function clickedSendButton() {
     bot.receiveMessageFromUser(userMessage,false);

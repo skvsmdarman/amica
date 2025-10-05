@@ -51,7 +51,7 @@ const FlexTextarea: React.FC<FlexTextareaProps> = ({ value = "", onChange }) => 
         textarea.removeEventListener('compositionend', handleCompositionEnd);
       }
     }
-  }, []);
+  }, [value, onChange]);
 
   useEffect(() => {
     if (textareaRef.current) {

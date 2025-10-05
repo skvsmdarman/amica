@@ -52,7 +52,7 @@ export default function VrmDemo({
         });
       }
    },
-   [viewer, vrmUrl]
+   [viewer, vrmUrl, onScreenShot, onLoaded, onError]
   );
 
   return (

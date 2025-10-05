@@ -217,7 +217,7 @@ export const Settings = ({
 
       event.target.value = "";
     },
-    [viewer]
+    [viewer, vrmListAddFile]
   );
 
   function handleChangeBgImgFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -306,6 +306,7 @@ export const Settings = ({
     systemPrompt,
     debugGfx, mtoonDebugMode, mtoonMaterialType, useWebGPU,
     sttWakeWordEnabled, sttWakeWord,
+    settingsUpdated,
   ]);
 
   useEffect(() => {
@@ -341,7 +342,8 @@ export const Settings = ({
     topMenuRef,
     backButtonRef,
     mainMenuRef,
-    notificationsRef
+    notificationsRef,
+    onClickClose
   ]);
 
   function handleMenuClick(link: Link) {

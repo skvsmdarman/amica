@@ -30,7 +30,7 @@ export function ExternalAPIPage({
         } else {
             bot.closeSSE();
         }
-    }, [externalApiEnabled]);
+  }, [externalApiEnabled, bot]);
 
     return (
         <BasicPage

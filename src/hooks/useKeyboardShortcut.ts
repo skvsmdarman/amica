@@ -17,5 +17,5 @@ export function useKeyboardShortcut(
     return () => {
       window.removeEventListener('keydown', handleKey);
     };
-  }, []);
+  }, [key, callback, ctrlKey]);
 };

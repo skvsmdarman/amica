@@ -24,6 +24,10 @@ export default function VrmViewer({ chatMode }: { chatMode: boolean }) {
     viewer.resizeChatMode(chatMode);
   });
 
+  const isVrmNotInList =
+    vrmList.findIndex(
+      (value) => value.hashEquals(getCurrentVrm()?.getHash() || "")
+    ) < 0;
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (canvas && (!isVrmLocal || !isLoadingVrmList)) {
@@ -38,8 +42,11 @@ export default function VrmViewer({ chatMode }: { chatMode: boolean }) {
             } else {
               // Temp Disable : WebXR
               // await viewer.loadScenario(config('scenario_url'));
-              await viewer.loadVrm(buildUrl(currentVrm.url),
-              (progress) => { console.log(`loading model ${progress}`);}
+              await viewer.loadVrm(
+                buildUrl(currentVrm.url),
+                (progress) => {
+                  console.log(`loading model ${progress}`);
+                }
               );
               resolve(true);
             }
@@ -83,18 +90,20 @@ export default function VrmViewer({ chatMode }: { chatMode: boolean }) {
           const file_type = file.name.split(".").pop();
           if (file_type === "vrm") {
             vrmListAddFile(file, viewer);
-          }/* else if (file_type === "glb") {
+          } /* else if (file_type === "glb") {
             viewer.loadRoom(URL.createObjectURL(file));
           }*/
         });
       }
     },
     [
-      vrmList.findIndex((value) =>
-        value.hashEquals(getCurrentVrm()?.getHash() || ""),
-      ) < 0,
+      isVrmNotInList,
       viewer,
-    ],
+      getCurrentVrm,
+      isLoadingVrmList,
+      isVrmLocal,
+      vrmListAddFile,
+    ]
   );
 
   return (

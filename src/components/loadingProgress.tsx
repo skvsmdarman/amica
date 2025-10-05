@@ -30,7 +30,7 @@ export function LoadingProgress() {
         }
       }
     }, 100);
-  }, []);
+  }, [progressCnt]);
 
   return (
     <div className="absolute top-16 right-0 mt-4 pt-16 pr-2 w-30 text-white text-xs z-20 text-right">

@@ -186,7 +186,7 @@ export default function Home() {
     //     setIsVRSupported(supported);
     //   });
     // }
-  }, []);
+  }, [muted]);
 
   useEffect(() => {
     if (viewer && videoRef.current && showStreamWindow) {
@@ -315,7 +315,7 @@ export default function Home() {
     if (config("tts_backend") === 'openai') {
       updateConfig("tts_backend", "openai_tts");
     }
-  }, [bot, viewer]);
+  }, [bot, viewer, amicaLife, alert]);
 
   useEffect(() => {
     amicaLife.initialize(
@@ -324,7 +324,7 @@ export default function Home() {
       setSubconciousLogs,
       chatSpeaking,
     );
-  }, [amicaLife, bot, viewer]);
+  }, [amicaLife, bot, viewer, chatSpeaking]);
 
   useEffect(() => {
     handleChatLogs(chatLog);

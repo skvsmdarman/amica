@@ -9,6 +9,7 @@ export const GitHubLink = () => {
       target="_blank"
     >
       <div className="py-2 px-2 rounded-lg bg-[#1F2328] hover:bg-[#33383E] active:bg-[565A60] inline-flex">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt="https://github.com/semperai/amica"
           height={24}

@@ -55,8 +55,20 @@ export function EmbeddedWebcam({
       }
     };
 
+    const handleImageDataChange = useCallback(async () => {
+      if (imageData) {
+        const fixedImageData = imageMode === "webcam"
+          ? imageData.replace('data:image/jpeg;base64,', '')
+          : await processImageFromCanvas(imageData);
+        await bot.getVisionResponse(fixedImageData);
+        setCameraDisabled(false);
+        setImageData("");
+        setWebcamEnabled(false);
+      }
+    }, [imageData, imageMode, bot, setWebcamEnabled]);
+
     handleImageDataChange();
-  }, [imageData, imageMode, bot]);
+  }, [handleImageDataChange]);
 
   const capture = useCallback(() => {
       if (webcamRef.current === null) {
@@ -116,6 +128,7 @@ export function EmbeddedWebcam({
             />
           )}
           {cameraDisabled && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               ref={imgRef}
               src={imageData}

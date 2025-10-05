@@ -123,7 +123,7 @@ export default function Share() {
       updateConfig('vrm_save_type', 'web');
       setVrmSaveType('web');
     }
-  }, [vrmLoadedFromIndexedDb]);
+  }, [vrmLoadedFromIndexedDb, vrmHash, vrmUrl]);
 
   useEffect(() => {
     setShowUploadLocalVrmMessage(vrmSaveType == 'local' && !vrmLoadedFromIndexedDb && !vrmLoadingFromIndexedDb);
@@ -340,7 +340,8 @@ export default function Share() {
                 }}
               />
               {youtubeVideoId && (
-                <img width="100%" src={`https://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img width="100%" src={`https://img.youtube.com/vi/${youtubeVideoId}/0.jpg`} alt="YouTube video thumbnail" />
               )}
             </div>
           </div>

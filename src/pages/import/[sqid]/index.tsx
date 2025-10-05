@@ -286,7 +286,8 @@ export default function Import() {
                   defaultValue={bgUrl}
                   disabled={true}
                 />
-                <img src={bgUrl} className="mt-2" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={bgUrl} className="mt-2" alt="Background" />
               </div>
             </div>
           )}
